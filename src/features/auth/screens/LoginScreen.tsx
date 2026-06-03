@@ -63,7 +63,26 @@ export function LoginScreen() {
           error={errors.password?.message}
         />
         {errMsg && <p className="text-sm text-status-danger">{errMsg}</p>}
-        <p className="text-xs text-slate-400">Demo: any code + any password signs in.</p>
+
+        {/* Demo accounts (mirrors the web app's role-based demo credentials). */}
+        <section className="rounded-2xl border border-brand-accent/20 bg-brand-accent/5 p-4">
+          <div className="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-accent">
+              <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM4 21a8 8 0 0 1 16 0" />
+            </svg>
+            <h2 className="text-sm font-bold text-slate-900">Demo Accounts</h2>
+          </div>
+          <dl className="mt-3 space-y-1.5 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-slate-500">Login</dt>
+              <dd className="font-mono text-slate-900">driver@nwt.test</dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-slate-500">Password</dt>
+              <dd className="font-mono text-slate-900">password</dd>
+            </div>
+          </dl>
+        </section>
       </form>
     </Screen>
   );
