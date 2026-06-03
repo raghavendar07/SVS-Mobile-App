@@ -6,7 +6,7 @@ import type { RouteDTO, StopDTO } from '@features/routes/api/dto';
 import type { ChecklistDTO, ChecklistItemDTO } from '@features/checklist/api/dto';
 
 const TENANT = 'svs-demo';
-const DRIVER = 'dev-driver';
+const DRIVER = 'DR001'; // demo driver id — matches login (employeeCode DR001)
 const TODAY = '2026-06-03';
 
 export const mockRoutes: RouteDTO[] = [
@@ -99,8 +99,8 @@ export const mockNotifications = [
 
 export const mockDriver = {
   id: DRIVER,
-  name: 'Dev Driver',
-  employeeCode: 'EMP-001',
+  name: 'John Smith',
+  employeeCode: 'DR001',
   phone: '+1 555 0100',
   licenseNumber: 'DL-99231',
   active: true,

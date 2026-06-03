@@ -17,8 +17,8 @@ export const MOCK_DRIVER: Driver = {
   id: 'DR001',
   name: MOCK_CREDENTIALS.name,
   employeeCode: MOCK_CREDENTIALS.employeeCode,
-  phone: '',
-  licenseNumber: '',
+  phone: '+1 555 0100',
+  licenseNumber: 'DL-99231',
   active: true,
 };
 
