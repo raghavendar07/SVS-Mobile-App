@@ -11,8 +11,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      // Phase 1: auto-generated precache SW. Phase 6/9 switch to injectManifest
-      // for Background Sync + FCM push handling (custom SW in src/sw/).
+      // Don't auto-register the workbox SW: this prototype uses MSW's service
+      // worker (mockServiceWorker.js) at scope '/' to serve mock data in prod.
+      // Two SWs at the same scope conflict, so the PWA SW stays unregistered
+      // until a real backend replaces MSW. Manifest (installability) is kept.
+      injectRegister: false,
+      // Phase 6/9 will switch to injectManifest for Background Sync + FCM push.
       manifest: {
         name: 'SVS Driver',
         short_name: 'SVS Driver',
