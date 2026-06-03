@@ -45,8 +45,8 @@ export function ChecklistFormScreen() {
   function onComplete() {
     if (!data) return;
     complete.mutate(data.checklist.localId, {
-      // Forward straight to odometer/start — no RouteDetail bounce (saves 1 tap + screen).
-      onSuccess: () => navigate(paths.executeStart(routeId), { replace: true }),
+      // Forward to Gate 2 (selfie verification) → odometer/start. Skips RouteDetail bounce.
+      onSuccess: () => navigate(paths.verifyIdentity(routeId), { replace: true }),
     });
   }
 

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Screen,
@@ -10,8 +11,12 @@ import {
 import { paths } from '@routes/routePaths';
 import { formatTime } from '@utils/date';
 import { useChecklist } from '@features/checklist';
-// Deep import (not the barrel) to avoid a routes <-> route-execution import cycle.
+// Deep imports (not the barrel) to avoid a routes <-> route-execution import cycle.
 import { RouteMap } from '@features/route-execution/components/RouteMap';
+import {
+  useHasVerification,
+  useStartVerification,
+} from '@features/route-execution/hooks/useVerification';
 import { useRoute, useStops } from '../hooks/useRoutes';
 
 /** Route Details (§4 Route Execution) — overview + stops + entry to checklist/start. */
@@ -28,8 +33,11 @@ export function RouteDetailScreen() {
 
   const r = route.data;
   const checklistDone = !!checklist.data?.checklist.completedAt;
+  const verified = useHasVerification(r.localId);
+  const verification = useStartVerification(r.localId);
+  const selfieUrl = useSelfieUrl(verification?.blob);
 
-  // Footer CTA depends on route + compliance gate (§5 / §0 compliance domain).
+  // Footer CTA reflects pre-trip gates: Checklist → Selfie → Start route.
   let cta: { label: string; to: string; disabled?: boolean };
   if (r.status === 'in_progress') {
     cta = { label: 'Continue route', to: paths.execute(r.localId) };
@@ -38,6 +46,8 @@ export function RouteDetailScreen() {
   } else if (!checklistDone) {
     // Skip the read-only overview interstitial — go straight to the form (saves 1 tap).
     cta = { label: 'Start vehicle checklist', to: `${paths.checklist(r.localId)}/form` };
+  } else if (!verified) {
+    cta = { label: 'Verify identity (selfie)', to: paths.verifyIdentity(r.localId) };
   } else {
     cta = { label: 'Start route', to: paths.executeStart(r.localId) };
   }
@@ -75,6 +85,19 @@ export function RouteDetailScreen() {
         {/* All-stops overview map (no trail until the route starts). */}
         <RouteMap stops={stops.data ?? []} trail={[]} />
 
+        {/* Pre-trip gates status row (checklist + selfie) */}
+        <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 text-sm">
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${checklistDone ? 'bg-status-done/10 text-status-done' : 'bg-status-warn/10 text-status-warn'}`}>
+            {checklistDone ? '✓' : '⏱'} Checklist
+          </span>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${verified ? 'bg-status-done/10 text-status-done' : 'bg-status-warn/10 text-status-warn'}`}>
+            {verified ? '✓' : '⏱'} Selfie
+          </span>
+          {selfieUrl && (
+            <img src={selfieUrl} alt="Driver verification" className="ml-auto h-10 w-10 rounded-full object-cover ring-2 ring-status-done" />
+          )}
+        </div>
+
         <section>
           <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">Stops</h2>
           {stops.isLoading ? (
@@ -92,4 +115,19 @@ export function RouteDetailScreen() {
       </div>
     </Screen>
   );
+}
+
+/** Object URL for a blob, revoked on change/unmount (avoids memory leaks). */
+function useSelfieUrl(blob: Blob | undefined): string | null {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!blob) {
+      setUrl(null);
+      return;
+    }
+    const u = URL.createObjectURL(blob);
+    setUrl(u);
+    return () => URL.revokeObjectURL(u);
+  }, [blob]);
+  return url;
 }

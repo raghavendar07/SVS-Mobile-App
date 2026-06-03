@@ -82,6 +82,16 @@ export interface ChecklistPhoto extends SyncMeta {
   capturedAt: string;
 }
 
+/** Pre-trip driver identity selfie (Gate 2). Mirrors ChecklistPhoto. */
+export interface StartVerification extends SyncMeta {
+  routeId: string;
+  blob?: Blob; // stored in IndexedDB until uploaded
+  remoteUrl?: string;
+  capturedAt: string;
+  lat?: number;
+  lng?: number;
+}
+
 export interface GPSPoint extends SyncMeta {
   routeId: string;
   routeEventId?: string; // set when source = 'event'

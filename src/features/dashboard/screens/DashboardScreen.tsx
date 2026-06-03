@@ -3,17 +3,24 @@ import { Screen, RouteCard, EmptyState, SkeletonList } from '@shared/components'
 import { useSessionStore } from '@store/sessionStore';
 import { useTodayRoutes, useStops } from '@features/routes';
 import { useChecklist } from '@features/checklist';
+import { useHasVerification } from '@features/route-execution/hooks/useVerification';
 import { useNotifications } from '@features/notifications';
 import { paths } from '@routes/routePaths';
 import type { Route } from '@shared/types';
 
-/** Maps a route + checklist state to its 1-tap CTA target (mirrors RouteDetail gating). */
-function ctaFor(route: Route, checklistDone: boolean, navigate: (to: string) => void) {
+/** Maps a route + checklist + selfie state to its 1-tap CTA target (mirrors RouteDetail gating). */
+function ctaFor(
+  route: Route,
+  checklistDone: boolean,
+  verified: boolean,
+  navigate: (to: string) => void,
+) {
   const id = route.localId;
   if (route.status === 'in_progress') return { label: 'Continue route', onClick: () => navigate(paths.execute(id)) };
   if (route.status === 'completed') return { label: 'View summary', onClick: () => navigate(paths.routeSummary(id)) };
-  if (checklistDone) return { label: 'Start route', onClick: () => navigate(paths.executeStart(id)) };
-  return { label: 'Start checklist', onClick: () => navigate(`${paths.checklist(id)}/form`) };
+  if (!checklistDone) return { label: 'Start checklist', onClick: () => navigate(`${paths.checklist(id)}/form`) };
+  if (!verified) return { label: 'Verify identity', onClick: () => navigate(paths.verifyIdentity(id)) };
+  return { label: 'Start route', onClick: () => navigate(paths.executeStart(id)) };
 }
 
 /** Home / Dashboard (§4) — answers "what do I do next?" with a hero route card on top. */
@@ -30,6 +37,7 @@ export function DashboardScreen() {
   const heroStops = useStops(hero?.localId ?? '');
   const heroChecklist = useChecklist(hero?.localId ?? '');
   const checklistDone = !!heroChecklist.data?.checklist.completedAt;
+  const heroVerified = useHasVerification(hero?.localId ?? '');
   const stopsRemaining = heroStops.data?.filter((s) => s.status === 'pending' || s.status === 'arrived').length;
 
   const total = routes?.length ?? 0;
@@ -80,7 +88,7 @@ export function DashboardScreen() {
               <RouteCard
                 route={hero}
                 stopsRemaining={stopsRemaining}
-                primaryCta={ctaFor(hero, checklistDone, navigate)}
+                primaryCta={ctaFor(hero, checklistDone, heroVerified, navigate)}
                 onClick={() => navigate(paths.routeDetail(hero.localId))}
               />
             </section>

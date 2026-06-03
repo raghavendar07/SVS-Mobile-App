@@ -14,6 +14,7 @@ import {
   StopActionScreen,
   EndRouteScreen,
   RouteSummaryScreen,
+  SelfieVerificationScreen,
 } from '@features/route-execution';
 import { HistoryScreen, RouteDetailHistoryScreen } from '@features/history';
 import { ProfileScreen, ChangePasswordScreen } from '@features/profile';
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
           { path: paths.routeDetail(), element: <RouteDetailScreen /> },
           { path: paths.checklist(), element: <ChecklistOverviewScreen /> },
           { path: `${paths.checklist()}/form`, element: <ChecklistFormScreen /> },
+          { path: paths.verifyIdentity(), element: <SelfieVerificationScreen /> },
           { path: paths.executeStart(), element: <StartRouteScreen /> },
           { path: paths.execute(), element: <ActiveRouteScreen /> },
           { path: paths.executeEnd(), element: <EndRouteScreen /> },

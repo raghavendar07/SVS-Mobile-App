@@ -9,6 +9,7 @@ export const paths = {
   routeDetail: (routeId = ':routeId') => `/routes/${routeId}`,
   checklist: (routeId = ':routeId') => `/routes/${routeId}/checklist`,
   execute: (routeId = ':routeId') => `/routes/${routeId}/execute`,
+  verifyIdentity: (routeId = ':routeId') => `/routes/${routeId}/execute/verify`,
   executeStart: (routeId = ':routeId') => `/routes/${routeId}/execute/start`,
   executeEnd: (routeId = ':routeId') => `/routes/${routeId}/execute/end`,
   executeStop: (routeId = ':routeId', stopId = ':stopId') =>

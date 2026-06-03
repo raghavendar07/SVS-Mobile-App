@@ -10,6 +10,7 @@ import type {
   RouteEvent,
   RouteStop,
   Session,
+  StartVerification,
   UserSettings,
 } from '@shared/types';
 
@@ -33,6 +34,7 @@ export class SvsDatabase extends Dexie {
   notifications!: Table<Notification, string>;
   settings!: Table<UserSettings, string>;
   session!: Table<Session, string>;
+  verifications!: Table<StartVerification, string>;
 
   constructor() {
     super('svs-driver');
@@ -50,6 +52,11 @@ export class SvsDatabase extends Dexie {
       notifications: 'id, type, read, receivedAt, routeId',
       settings: 'driverId',
       session: 'driverId',
+    });
+
+    // v2 — pre-trip selfie verification (Gate 2). Additive: existing rows preserved.
+    this.version(2).stores({
+      verifications: 'localId, serverId, routeId, syncStatus',
     });
   }
 }

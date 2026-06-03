@@ -116,4 +116,5 @@ export const handlers = [
   http.post(url('/checklist-photos'), () => HttpResponse.json({ data: { ok: true } }, { status: 201 })),
   http.post(url('/gps/points'), () => HttpResponse.json({ data: { ok: true } }, { status: 201 })),
   http.post(url('/gps/batch'), () => HttpResponse.json({ data: { ok: true } }, { status: 201 })),
+  http.post(url('/routes/:routeId/verification'), () => HttpResponse.json({ data: { ok: true } }, { status: 201 })),
 ];

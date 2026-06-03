@@ -13,11 +13,22 @@ async function seedRouteWithStop() {
     localId: 's1', serverId: 's1', routeId: 'r1', sequence: 1, type: 'pickup',
     status: 'pending', address: '1 St', syncStatus: 'synced', version: 1, updatedAt: nowIso(),
   });
+  // Gate 2 seed: satisfy the verification guard in executionDao.startRoute.
+  await db.verifications.put({
+    localId: 'v1', routeId: 'r1', capturedAt: nowIso(),
+    syncStatus: 'synced', version: 1, updatedAt: nowIso(),
+  });
 }
 
 describe('executionDao state machine', () => {
   beforeEach(async () => {
-    await Promise.all([db.routes.clear(), db.stops.clear(), db.routeEvents.clear(), db.offlineQueue.clear()]);
+    await Promise.all([
+      db.routes.clear(),
+      db.stops.clear(),
+      db.routeEvents.clear(),
+      db.offlineQueue.clear(),
+      db.verifications.clear(),
+    ]);
     await seedRouteWithStop();
   });
 
@@ -53,6 +64,13 @@ describe('executionDao state machine', () => {
     expect(stop?.status).toBe('refused');
     const ev = (await db.routeEvents.where('routeId').equals('r1').toArray()).find((e) => e.type === 'refusal');
     expect(ev?.note).toBe('declined');
+  });
+
+  it('startRoute throws when the selfie verification gate is unmet', async () => {
+    await db.verifications.clear();
+    await expect(executionDao.startRoute('r1', 1000)).rejects.toThrow(/verification/i);
+    const route = await db.routes.get('r1');
+    expect(route?.status).toBe('assigned'); // unchanged
   });
 
   it('markStopArrived sets arrived + enqueues a RouteStop update, no RouteEvent', async () => {

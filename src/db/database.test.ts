@@ -23,6 +23,7 @@ describe('SvsDatabase', () => {
         'session',
         'settings',
         'stops',
+        'verifications',
       ].sort(),
     );
   });

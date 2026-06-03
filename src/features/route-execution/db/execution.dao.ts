@@ -55,6 +55,10 @@ export const executionDao = {
   async startRoute(routeId: string, odometerIn: number): Promise<void> {
     const route = await db.routes.get(routeId);
     if (!route) throw new Error('Route not found');
+    // Gate 2 guard: a selfie verification must exist for this route. Cannot be
+    // bypassed by deep-linking to /execute/start. Soft fail (no crash).
+    const hasVerification = (await db.verifications.where('routeId').equals(routeId).count()) > 0;
+    if (!hasVerification) throw new Error('Selfie verification required before starting the route.');
     await writeEvent({ routeId, type: 'route_start', odometer: odometerIn });
     const updated = {
       ...route,

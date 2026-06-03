@@ -34,6 +34,10 @@ export function toRequest(action: OfflineAction): SyncRequest {
       return { method: 'post', url: '/gps/points', body: action.payload };
     case 'GPSBatch':
       return { method: 'post', url: '/gps/batch', body: action.payload };
+    case 'StartVerification':
+      // TODO(upload-blob): swap to multipart / pre-signed URL once the backend
+      // route is wired. Metadata-only POST is enough for the prototype.
+      return { method: 'post', url: `/routes/${action.routeId ?? ''}/verification`, body: action.payload };
     default:
       throw new Error(`No endpoint for entity ${action.entity satisfies never}`);
   }
@@ -47,6 +51,7 @@ const TABLE: Partial<Record<OfflineEntity, keyof typeof db>> = {
   ChecklistPhoto: 'checklistPhotos',
   RouteEvent: 'routeEvents',
   GPSPoint: 'gpsPoints',
+  StartVerification: 'verifications',
 };
 
 /** Mark the local entity row(s) for an accepted action as synced. */

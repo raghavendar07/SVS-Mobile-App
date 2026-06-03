@@ -49,7 +49,8 @@ export type OfflineEntity =
   | 'ChecklistPhoto'
   | 'RouteEvent'
   | 'GPSPoint'
-  | 'GPSBatch';
+  | 'GPSBatch'
+  | 'StartVerification';
 
 export type OfflineOp = 'create' | 'update' | 'delete';
 
