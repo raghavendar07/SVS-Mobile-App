@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /* Prevent rubber-band / overscroll bounce on mobile shells */
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  background: #0f172a; /* matches shell letterboxing on wide screens */
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Disable text selection on interactive chrome (native-app feel) */
+button,
+[role='button'] {
+  user-select: none;
+}
