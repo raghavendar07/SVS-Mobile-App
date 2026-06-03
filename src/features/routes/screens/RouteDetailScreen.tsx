@@ -34,7 +34,8 @@ export function RouteDetailScreen() {
   } else if (r.status === 'completed') {
     cta = { label: 'View summary', to: paths.routeSummary(r.localId) };
   } else if (!checklistDone) {
-    cta = { label: 'Start vehicle checklist', to: paths.checklist(r.localId) };
+    // Skip the read-only overview interstitial — go straight to the form (saves 1 tap).
+    cta = { label: 'Start vehicle checklist', to: `${paths.checklist(r.localId)}/form` };
   } else {
     cta = { label: 'Start route', to: paths.executeStart(r.localId) };
   }

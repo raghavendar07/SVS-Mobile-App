@@ -12,7 +12,7 @@ export default {
         'safe-b': 'env(safe-area-inset-bottom)',
         'safe-l': 'env(safe-area-inset-left)',
         'safe-r': 'env(safe-area-inset-right)',
-        touch: '44px', // minimum touch target
+        touch: '48px', // minimum touch target (WCAG / driver-glove friendly)
       },
       colors: {
         // status palette (icon+label backed, never color-alone per UX guidelines)
@@ -29,8 +29,8 @@ export default {
           accent: '#2563eb',
         },
       },
-      minWidth: { touch: '44px' },
-      minHeight: { touch: '44px' },
+      minWidth: { touch: '48px' },
+      minHeight: { touch: '48px' },
     },
   },
   plugins: [],

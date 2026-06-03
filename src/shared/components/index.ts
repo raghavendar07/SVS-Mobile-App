@@ -7,6 +7,6 @@ export { Screen } from './layout/Screen';
 export { PlaceholderScreen } from './layout/PlaceholderScreen';
 export { OfflineBanner } from './feedback/OfflineBanner';
 export { EmptyState } from './feedback/EmptyState';
-export { LoadingState, ErrorState } from './feedback/StateViews';
+export { LoadingState, ErrorState, Skeleton, SkeletonList } from './feedback/StateViews';
 export { RouteCard } from './cards/RouteCard';
 export { StopCard } from './cards/StopCard';

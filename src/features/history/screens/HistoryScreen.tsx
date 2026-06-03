@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Screen, StatusBadge, EmptyState, LoadingState, ErrorState } from '@shared/components';
+import { Screen, StatusBadge, EmptyState, SkeletonList, ErrorState } from '@shared/components';
 import { paths } from '@routes/routePaths';
 import { formatDate } from '@utils/date';
 import { useHistory } from '../hooks/useHistory';
@@ -13,12 +13,12 @@ export function HistoryScreen() {
     <Screen
       header={
         <div className="flex min-h-touch items-center px-4">
-          <h1 className="text-lg font-bold">History</h1>
+          <h1 className="text-xl font-bold text-slate-900">History</h1>
         </div>
       }
     >
       {isLoading ? (
-        <LoadingState label="Loading history…" />
+        <SkeletonList rows={4} />
       ) : isError ? (
         <ErrorState message="Could not load history." onRetry={() => refetch()} />
       ) : !data || data.items.length === 0 ? (

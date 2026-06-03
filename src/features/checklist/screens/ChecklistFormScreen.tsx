@@ -45,9 +45,12 @@ export function ChecklistFormScreen() {
   function onComplete() {
     if (!data) return;
     complete.mutate(data.checklist.localId, {
-      onSuccess: () => navigate(paths.routeDetail(routeId), { replace: true }),
+      // Forward straight to odometer/start — no RouteDetail bounce (saves 1 tap + screen).
+      onSuccess: () => navigate(paths.executeStart(routeId), { replace: true }),
     });
   }
+
+  const answeredCount = items.filter((i) => answeredSet.has(i.localId)).length;
 
   return (
     <Screen
@@ -56,16 +59,15 @@ export function ChecklistFormScreen() {
           <button onClick={() => navigate(-1)} className="text-brand-accent" aria-label="Back">
             ‹ Back
           </button>
-          <h1 className="text-lg font-bold">Safety checklist</h1>
+          <h1 className="text-xl font-bold">Safety checklist</h1>
         </div>
       }
       footer={
-        <div className="space-y-1 p-4">
-          {!canComplete && (
-            <p className="text-center text-xs text-status-warn">
-              {!allAnswered ? 'Answer every item to continue' : 'Add a note to each failed item'}
-            </p>
-          )}
+        <div className="space-y-2 p-4">
+          <p className="text-center text-sm font-medium text-slate-600">
+            {answeredCount} of {items.length} answered
+            {canComplete ? '' : !allAnswered ? ' — answer every item' : ' — add a note to failed items'}
+          </p>
           <Button fullWidth disabled={!canComplete || complete.isPending} onClick={onComplete}>
             {complete.isPending ? 'Saving…' : 'Complete checklist'}
           </Button>

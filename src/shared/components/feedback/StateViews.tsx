@@ -11,11 +11,27 @@ export function LoadingState({ label = 'Loading…' }: { label?: string }) {
   );
 }
 
+/** Card-shaped skeleton block. */
+export function Skeleton({ className = '' }: { className?: string }) {
+  return <div className={`animate-pulse rounded-2xl bg-slate-100 ${className}`} />;
+}
+
+/** List of card skeletons — reduces perceived latency on route/history lists. */
+export function SkeletonList({ rows = 3 }: { rows?: number }) {
+  return (
+    <div className="space-y-3 p-4">
+      {Array.from({ length: rows }).map((_, i) => (
+        <Skeleton key={i} className="h-24 w-full" />
+      ))}
+    </div>
+  );
+}
+
 export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-      <h2 className="text-base font-semibold text-slate-800">Couldn't load</h2>
-      <p className="max-w-xs text-sm text-slate-500">{message ?? 'Something went wrong.'}</p>
+      <h2 className="text-lg font-bold text-slate-800">Couldn't load</h2>
+      <p className="max-w-xs text-sm text-slate-600">{message ?? 'Something went wrong.'}</p>
       {onRetry && (
         <Button variant="secondary" onClick={onRetry}>
           Retry
