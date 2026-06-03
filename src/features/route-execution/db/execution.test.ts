@@ -55,6 +55,18 @@ describe('executionDao state machine', () => {
     expect(ev?.note).toBe('declined');
   });
 
+  it('markStopArrived sets arrived + enqueues a RouteStop update, no RouteEvent', async () => {
+    await executionDao.startRoute('r1', 1000);
+    await db.offlineQueue.clear();
+    await db.routeEvents.clear();
+    await executionDao.markStopArrived('r1', 's1');
+    const stop = await db.stops.get('s1');
+    expect(stop?.status).toBe('arrived');
+    const queued = await db.offlineQueue.toArray();
+    expect(queued.some((a) => a.entity === 'RouteStop')).toBe(true);
+    expect(await db.routeEvents.count()).toBe(0); // arrival writes no event
+  });
+
   it('endRoute completes the route with odometerOut', async () => {
     await executionDao.startRoute('r1', 1000);
     await executionDao.endRoute('r1', 1080);

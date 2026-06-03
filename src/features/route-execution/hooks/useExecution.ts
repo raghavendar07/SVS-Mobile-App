@@ -36,6 +36,14 @@ export function useRecordStopEvent(routeId: string) {
   });
 }
 
+export function useMarkArrived(routeId: string) {
+  const invalidate = useInvalidateRoute(routeId);
+  return useMutation({
+    mutationFn: (stopId: string) => executionDao.markStopArrived(routeId, stopId),
+    onSuccess: invalidate,
+  });
+}
+
 export function useEndRoute(routeId: string) {
   const invalidate = useInvalidateRoute(routeId);
   const setActive = useActiveRouteStore((s) => s.setActiveRoute);

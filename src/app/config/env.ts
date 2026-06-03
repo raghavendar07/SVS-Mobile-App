@@ -15,6 +15,7 @@ export const env = {
   apiTimeoutMs: num('VITE_API_TIMEOUT_MS', 15000),
   gpsTrackIntervalMs: num('VITE_GPS_TRACK_INTERVAL_MS', 30000),
   defaultTenantId: str('VITE_DEFAULT_TENANT_ID'),
+  googleMapsApiKey: str('VITE_GOOGLE_MAPS_API_KEY'),
   fcm: {
     apiKey: str('VITE_FCM_API_KEY'),
     projectId: str('VITE_FCM_PROJECT_ID'),

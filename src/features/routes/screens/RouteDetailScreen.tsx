@@ -10,6 +10,8 @@ import {
 import { paths } from '@routes/routePaths';
 import { formatTime } from '@utils/date';
 import { useChecklist } from '@features/checklist';
+// Deep import (not the barrel) to avoid a routes <-> route-execution import cycle.
+import { RouteMap } from '@features/route-execution/components/RouteMap';
 import { useRoute, useStops } from '../hooks/useRoutes';
 
 /** Route Details (§4 Route Execution) — overview + stops + entry to checklist/start. */
@@ -69,6 +71,9 @@ export function RouteDetailScreen() {
           </div>
           <StatusBadge status={r.status} />
         </div>
+
+        {/* All-stops overview map (no trail until the route starts). */}
+        <RouteMap stops={stops.data ?? []} trail={[]} />
 
         <section>
           <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">Stops</h2>

@@ -106,6 +106,29 @@ export const executionDao = {
     }
   },
 
+  /**
+   * Mark a stop as arrived (uses the dormant `arrived` StopStatus). Local write +
+   * RouteStop sync only — no RouteEvent, no server-contract change.
+   */
+  async markStopArrived(routeId: string, stopId: string): Promise<void> {
+    const stop = await db.stops.get(stopId);
+    if (!stop) return;
+    const updated = {
+      ...stop,
+      status: 'arrived' as const,
+      syncStatus: 'pending' as const,
+      version: stop.version + 1,
+      updatedAt: nowIso(),
+    };
+    await db.stops.put(updated);
+    await enqueueAction({
+      entity: 'RouteStop',
+      op: 'update',
+      payload: { localId: stopId, status: 'arrived' },
+      routeId,
+    });
+  },
+
   async endRoute(routeId: string, odometerOut: number): Promise<void> {
     const route = await db.routes.get(routeId);
     if (!route) throw new Error('Route not found');

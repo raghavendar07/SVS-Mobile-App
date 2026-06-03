@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly VITE_FCM_VAPID_KEY: string;
   readonly VITE_GPS_TRACK_INTERVAL_MS: string;
   readonly VITE_DEFAULT_TENANT_ID: string;
+  readonly VITE_GOOGLE_MAPS_API_KEY: string;
 }
 
 interface ImportMeta {

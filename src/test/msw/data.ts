@@ -31,11 +31,11 @@ export const mockRoutes: RouteDTO[] = [
 ];
 
 export const mockStops: StopDTO[] = [
-  { id: 'stop-1', routeId: 'route-1001', sequence: 1, type: 'pickup', status: 'pending', address: '14 Maple St', passengerName: 'A. Rivera', passengerRef: 'P-201', scheduledAt: `${TODAY}T07:45:00.000Z` },
-  { id: 'stop-2', routeId: 'route-1001', sequence: 2, type: 'pickup', status: 'pending', address: '9 Birch Ave', passengerName: 'M. Chen', passengerRef: 'P-202', scheduledAt: `${TODAY}T08:10:00.000Z` },
-  { id: 'stop-3', routeId: 'route-1001', sequence: 3, type: 'drop_off', status: 'pending', address: 'Civic Center', scheduledAt: `${TODAY}T08:50:00.000Z` },
-  { id: 'stop-4', routeId: 'route-1002', sequence: 1, type: 'pickup', status: 'pending', address: 'Terminal B', passengerName: 'J. Okafor', passengerRef: 'P-310', scheduledAt: `${TODAY}T13:15:00.000Z` },
-  { id: 'stop-5', routeId: 'route-1002', sequence: 2, type: 'drop_off', status: 'pending', address: 'Grand Hotel', scheduledAt: `${TODAY}T14:00:00.000Z` },
+  { id: 'stop-1', routeId: 'route-1001', sequence: 1, type: 'pickup', status: 'pending', address: '14 Maple St', lat: 37.7849, lng: -122.4094, passengerName: 'A. Rivera', passengerRef: 'P-201', scheduledAt: `${TODAY}T07:45:00.000Z` },
+  { id: 'stop-2', routeId: 'route-1001', sequence: 2, type: 'pickup', status: 'pending', address: '9 Birch Ave', lat: 37.7869, lng: -122.4014, passengerName: 'M. Chen', passengerRef: 'P-202', scheduledAt: `${TODAY}T08:10:00.000Z` },
+  { id: 'stop-3', routeId: 'route-1001', sequence: 3, type: 'drop_off', status: 'pending', address: 'Civic Center', lat: 37.7793, lng: -122.4193, scheduledAt: `${TODAY}T08:50:00.000Z` },
+  { id: 'stop-4', routeId: 'route-1002', sequence: 1, type: 'pickup', status: 'pending', address: 'Terminal B', lat: 37.7949, lng: -122.3994, passengerName: 'J. Okafor', passengerRef: 'P-310', scheduledAt: `${TODAY}T13:15:00.000Z` },
+  { id: 'stop-5', routeId: 'route-1002', sequence: 2, type: 'drop_off', status: 'pending', address: 'Grand Hotel', lat: 37.7879, lng: -122.4074, passengerName: 'J. Okafor', passengerRef: 'P-311', scheduledAt: `${TODAY}T14:00:00.000Z` },
 ];
 
 const checklistItems = (checklistId: string): ChecklistItemDTO[] => [
