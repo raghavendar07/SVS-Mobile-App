@@ -4,6 +4,7 @@ import { persistSession, clearSession } from '@core/auth';
 import { normalizeError } from '@core/http';
 import { login, logout, forgotPassword } from '../api/auth.api';
 import type { LoginInput, ForgotPasswordInput } from '../schema/login.schema';
+import { resetDemoData } from '../resetDemo';
 
 /** Login mutation: authenticate → persist session → hydrate store. */
 export function useLogin() {
@@ -32,6 +33,7 @@ export function useLogout() {
     mutationFn: async () => {
       await logout();
       await clearSession();
+      await resetDemoData(); // fresh state for the next login (prototype)
     },
     onSuccess: () => clear(),
   });

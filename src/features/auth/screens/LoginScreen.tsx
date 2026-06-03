@@ -9,6 +9,7 @@ import { useSessionStore } from '@store/sessionStore';
 import { persistSession } from '@core/auth';
 import { loginSchema, type LoginInput } from '../schema/login.schema';
 import { MOCK_CREDENTIALS, MOCK_DRIVER, buildMockSession, isValidLogin } from '../mockAuth';
+import { resetDemoData } from '../resetDemo';
 
 export function LoginScreen() {
   const navigate = useNavigate();
@@ -38,6 +39,9 @@ export function LoginScreen() {
       return;
     }
     setSubmitting(true);
+    // Prototype: wipe stale routes/checklists/verifications so every login is a
+    // fresh demo. Without this, a route left in_progress bypasses the pre-trip gates.
+    await resetDemoData();
     const session = buildMockSession();
     await persistSession(MOCK_DRIVER, session);
     setSession(MOCK_DRIVER, session);
