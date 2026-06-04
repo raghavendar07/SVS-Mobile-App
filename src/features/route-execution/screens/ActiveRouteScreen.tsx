@@ -72,7 +72,12 @@ export function ActiveRouteScreen() {
               <Button
                 fullWidth
                 disabled={busy}
-                onClick={() => record.mutate({ stopId: currentStop.localId, type: confirmType })}
+                onClick={() =>
+                  record.mutate(
+                    { stopId: currentStop.localId, type: confirmType },
+                    { onSuccess: () => navigate(paths.stopResolved(routeId, currentStop.localId)) },
+                  )
+                }
               >
                 Confirm {noun}
               </Button>
@@ -147,7 +152,11 @@ export function ActiveRouteScreen() {
                       open
                         ? {
                             label: stop.type === 'pickup' ? 'Confirm pickup' : 'Confirm drop-off',
-                            onClick: () => record.mutate({ stopId: stop.localId, type: t }),
+                            onClick: () =>
+                              record.mutate(
+                                { stopId: stop.localId, type: t },
+                                { onSuccess: () => navigate(paths.stopResolved(routeId, stop.localId)) },
+                              ),
                           }
                         : undefined
                     }

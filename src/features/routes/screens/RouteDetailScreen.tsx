@@ -150,10 +150,13 @@ export function RouteDetailScreen() {
               onNavigate={() => openNavigation(currentStop)}
               onArrived={() => arrive.mutate(currentStop.localId)}
               onConfirm={() =>
-                record.mutate({
-                  stopId: currentStop.localId,
-                  type: currentStop.type === 'pickup' ? 'pickup' : 'drop_off',
-                })
+                record.mutate(
+                  {
+                    stopId: currentStop.localId,
+                    type: currentStop.type === 'pickup' ? 'pickup' : 'drop_off',
+                  },
+                  { onSuccess: () => navigate(paths.stopResolved(routeId, currentStop.localId)) },
+                )
               }
               onNegative={() => navigate(paths.executeStop(routeId, currentStop.localId))}
               preTripBlocked={r.status === 'assigned'}

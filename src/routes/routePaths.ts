@@ -14,6 +14,8 @@ export const paths = {
   executeEnd: (routeId = ':routeId') => `/routes/${routeId}/execute/end`,
   executeStop: (routeId = ':routeId', stopId = ':stopId') =>
     `/routes/${routeId}/execute/stop/${stopId}`,
+  stopResolved: (routeId = ':routeId', stopId = ':stopId') =>
+    `/routes/${routeId}/execute/stop/${stopId}/resolved`,
   routeSummary: (routeId = ':routeId') => `/routes/${routeId}/summary`,
 
   history: '/history',

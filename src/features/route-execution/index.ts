@@ -4,6 +4,7 @@ export { StopActionScreen } from './screens/StopActionScreen';
 export { EndRouteScreen } from './screens/EndRouteScreen';
 export { RouteSummaryScreen } from './screens/RouteSummaryScreen';
 export { SelfieVerificationScreen } from './screens/SelfieVerificationScreen';
+export { StopResolvedScreen } from './screens/StopResolvedScreen';
 export { RouteMap } from './components/RouteMap';
 export { useRouteTrail } from './hooks/useRouteTrail';
 export { useMarkArrived } from './hooks/useExecution';

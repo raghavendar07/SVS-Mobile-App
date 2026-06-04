@@ -15,6 +15,7 @@ import {
   EndRouteScreen,
   RouteSummaryScreen,
   SelfieVerificationScreen,
+  StopResolvedScreen,
 } from '@features/route-execution';
 import { HistoryScreen, RouteDetailHistoryScreen } from '@features/history';
 import { ProfileScreen, ChangePasswordScreen } from '@features/profile';
@@ -55,6 +56,7 @@ export const router = createBrowserRouter([
           { path: paths.execute(), element: <ActiveRouteScreen /> },
           { path: paths.executeEnd(), element: <EndRouteScreen /> },
           { path: paths.executeStop(), element: <StopActionScreen /> },
+          { path: paths.stopResolved(), element: <StopResolvedScreen /> },
           { path: paths.routeSummary(), element: <RouteSummaryScreen /> },
           { path: paths.historyDetail(), element: <RouteDetailHistoryScreen /> },
           { path: paths.notifications, element: <NotificationsScreen /> },

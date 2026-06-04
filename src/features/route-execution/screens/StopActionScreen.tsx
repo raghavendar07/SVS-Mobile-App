@@ -46,7 +46,7 @@ export function StopActionScreen() {
   function commit(type: EventType, reasonCode?: string, note?: string) {
     record.mutate(
       { stopId, type, reasonCode, note },
-      { onSuccess: () => navigate(paths.execute(routeId), { replace: true }) },
+      { onSuccess: () => navigate(paths.stopResolved(routeId, stopId), { replace: true }) },
     );
   }
 
